@@ -6,7 +6,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     //the speed in meters per second that the player moves with.
-    public float speed = 4f;
+    [SerializeField]
+    float speed = 4f;
 
     //the input axis for sideways movement
     public string sidewaysAxis = "Horizontal";
@@ -35,7 +36,20 @@ public class PlayerController : MonoBehaviour
     private float currentRotX = 0f;
 
     //the layermask that we want to use for detection.
-    public LayerMask detectionMask;
+    [SerializeField]
+    private LayerMask detectionMask;
+    
+    public LayerMask DetectionMask
+    {
+        get
+        {
+            return detectionMask;
+        }
+        private set
+        {
+            detectionMask = value;
+        }
+    }
 
     //the button we use to interact with objects.
     public string interactButton = "Interact";
@@ -80,7 +94,9 @@ public class PlayerController : MonoBehaviour
         DetectObject();
     }
 
-    //Move the character by the WASD input
+    ///<summary>
+    ///Move the character by the WASD input
+    ///</summary>
     void Move()
     {
         //Get the Input
@@ -141,12 +157,12 @@ public class PlayerController : MonoBehaviour
                 Debug.DrawLine(camera.position, hit.transform.position, Color.red, 10000);
 
                 //try to find a InteractBall script
-                InteractBall ball = hit.transform.GetComponent<InteractBall>();
+                Tutorial.IInteractable ball = hit.transform.GetComponent<Tutorial.IInteractable>();
 
-                if (ball) //if the ball exists
+                if (ball != null) //if the ball exists
                 {
                     //Interact with the ball!
-                    ball.Interact();
+                    ball.Interact(this);
                 }
             }
         }
