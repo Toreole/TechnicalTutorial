@@ -156,13 +156,13 @@ public class PlayerController : MonoBehaviour
                 //Draw a line that's only visible in the Scene View of the editor to help visualize what we did!
                 Debug.DrawLine(camera.position, hit.transform.position, Color.red, 10000);
 
-                //try to find a InteractBall script
-                Tutorial.IInteractable ball = hit.transform.GetComponent<Tutorial.IInteractable>();
+                //try to find a script we can interact with!
+                Tutorial.IInteractable interactable = hit.transform.GetComponent<Tutorial.IInteractable>();
 
-                if (ball != null) //if the ball exists
+                if (interactable != null) //if the interactable exists
                 {
-                    //Interact with the ball!
-                    ball.Interact(this);
+                    //Interact with the interactable!
+                    interactable.Interact(this);
                 }
             }
         }

@@ -28,6 +28,7 @@ public class InteractBall : MonoBehaviour, IInteractable
         body.AddForce(new Vector3(0, 5, 0), ForceMode.Impulse);
     }
 
+    //the public interface method we have to use
     public void Interact(PlayerController player)
     {
         Interact();
