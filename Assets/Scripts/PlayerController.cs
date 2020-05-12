@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Tutorial.ScriptableObjects;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -10,27 +11,36 @@ public class PlayerController : MonoBehaviour
     float speed = 4f;
 
     //the input axis for sideways movement
-    public string sidewaysAxis = "Horizontal";
+    [SerializeField]
+    private string sidewaysAxis = "Horizontal";
     //the input axis for forward movement
-    public string forwardAxis = "Vertical";
+    [SerializeField]
+    private string forwardAxis = "Vertical";
 
     //the character controller we use to move the player.
-    public CharacterController character;
+    [SerializeField]
+    private CharacterController character;
 
     //the angles per second we rotate our player and camera with
-    public float rotationSpeed = 180f;
+    [SerializeField]
+    private float rotationSpeed = 180f;
     //the rotation axis around the Y axis of the player
-    public string yRotationAxis = "Mouse X";
+    [SerializeField]
+    private string yRotationAxis = "Mouse X";
     //the rotation axis around the X axis of the camera.
-    public string xRotationAxis = "Mouse Y";
+    [SerializeField]
+    private string xRotationAxis = "Mouse Y";
 
     //the minimum rotation of the camera on X
-    public float minRotX = -70;
+    [SerializeField]
+    private float minRotX = -70;
     //the maximum rotation of the camera on X
-    public float maxRotX = 80;
-    
+    [SerializeField]
+    private float maxRotX = 80;
+
     //the camera that represents the players head.
-    public new Transform camera;
+    [SerializeField]
+    private new Transform camera;
 
     //the current rotation of the camera on the X axis.
     private float currentRotX = 0f;
@@ -38,25 +48,36 @@ public class PlayerController : MonoBehaviour
     //the layermask that we want to use for detection.
     [SerializeField]
     private LayerMask detectionMask;
-    
-    public LayerMask DetectionMask
-    {
-        get
-        {
-            return detectionMask;
-        }
-        private set
-        {
-            detectionMask = value;
-        }
-    }
 
     //the button we use to interact with objects.
-    public string interactButton = "Interact";
+    [SerializeField]
+    private string interactButton = "Interact";
+
+    //the button we use to jump!
+    [SerializeField]
+    private string jumpButton = "Jump";
+
+    //inventory that keeps track of collected items.
+    List<Item> inventory;
+
+    //y-axis velocity.
+    private float yVelocity;
+    //The multiplier for the effectiveness of gravity
+    [SerializeField]
+    private float gravityMultiplier = 1;
+    //the speed at the start of a jump.
+    [SerializeField]
+    private float jumpSpeed = 3;
+
+    //the position where we last detected the ground, only used for editor visualization.
+    private Vector3 lastGroundHit;
 
     //initial setup
     private void Start()
     {
+        //make sure our inventory is not null!
+        inventory = new List<Item>();
+
         if(character == null) //null => is not assigned
         {
             //get the attached CharacterController component (always exists because of the [RequireComponent] attribute at the top!)
@@ -113,12 +134,29 @@ public class PlayerController : MonoBehaviour
         
         //multiply our movement direction with the speed to get the current directional velocity.
         //the same as movement = movement * speed;
-        movement *= speed;
+        movement *= speed * Time.deltaTime;
 
-        //SimpleMove applies gravity and the CharacterController handles collision for us!
-        //It expects a velocity, so there is no need to multiply this with Time.deltaTime!
-        character.SimpleMove(movement);
-        //transform.Translate(movement * Time.deltaTime); <- dont do this please
+        //better and more reliable ground detection than the character controller's .isGrounded property.
+        if(Physics.SphereCast(transform.position, 0.5f, Vector3.down, out RaycastHit groundHit, 0.6f))
+        {
+            lastGroundHit = groundHit.point;
+            //use our input button to jump!
+            if (Input.GetButtonDown(buttonName: jumpButton))
+            {
+                //set the yVelocity to our jump speed.
+                yVelocity = jumpSpeed;
+            }
+        }
+        else
+        {
+            //accelerate our player on the Y axis as long as he is in the air!
+            yVelocity += Physics.gravity.y * Time.deltaTime * gravityMultiplier;
+        }
+        //add the yVelocity to our movement delta.
+        movement.y += yVelocity * Time.deltaTime;
+
+        //Move uses the movement delta we calculated above to move our character in the scene!
+        character.Move(movement);
     }
 
     //Rotate the player along the specified axes of the mouse.
@@ -168,4 +206,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void AddItemToPlayer(Item item)
+    {
+        inventory.Add(item);
+    }
+    public void RemoveItemFromPlayer(Item item)
+    {
+        inventory.Remove(item);
+    }
+    public bool DoesPlayerHaveItem(Item item)
+    {
+        return inventory.Contains(item);
+    }
+
+    //Draw a Sphere at the position where we last detected the ground
+    //ONLY VISIBLE IN THE SCENE VIEW!
+    public void OnDrawGizmos()
+    {
+        //make the sphere red!
+        Gizmos.color = Color.red;
+        //Draw the sphere itself. this uses worldspace.
+        Gizmos.DrawSphere(lastGroundHit, 0.5f);
+    }
 }

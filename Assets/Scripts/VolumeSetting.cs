@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using System.IO;
 
 public class VolumeSetting : MonoBehaviour
 {
@@ -52,6 +53,4 @@ public class VolumeSetting : MonoBehaviour
         //reset the slider to the loaded volume.
         volumeSlider.value = volume;
     }
-
-
 }

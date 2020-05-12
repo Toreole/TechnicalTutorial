@@ -7,7 +7,8 @@ using Tutorial;
 public class InteractBall : MonoBehaviour, IInteractable
 {
     //the body used for the physics simulation
-    public Rigidbody body;
+    [SerializeField]
+    private Rigidbody body;
 
     // Start is called before the first frame update
     void Start()
