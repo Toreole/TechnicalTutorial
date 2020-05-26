@@ -72,6 +72,8 @@ public class PlayerController : MonoBehaviour
     //the position where we last detected the ground, only used for editor visualization.
     private Vector3 lastGroundHit;
 
+    public bool InvertXRotation { get; set; } = false;
+
     //initial setup
     private void Start()
     {
@@ -168,7 +170,9 @@ public class PlayerController : MonoBehaviour
 
         //mouse Y movement
         float xRotation = Input.GetAxis(axisName: xRotationAxis);
-        xRotation *= rotationSpeed * Time.deltaTime;
+        xRotation *= rotationSpeed * Time.deltaTime * (InvertXRotation ? -1f : 1);
+        //The ? marks a ternary statement!
+        //if the bool is true, it uses the first value (-1), if its false, it uses the second value (1)
 
         //new currentRotation on the X axis of the camera.
         currentRotX = currentRotX + xRotation;

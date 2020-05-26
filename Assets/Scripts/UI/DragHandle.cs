@@ -17,6 +17,7 @@ namespace Tutorial.UI
         {
             //upon starting to drag around the window we need to get the offset.
             offset = (Vector2)target.position - eventData.position;
+            target.SetAsLastSibling();
         }
 
         public void OnDrag(PointerEventData eventData)

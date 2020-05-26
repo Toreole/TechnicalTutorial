@@ -4,5 +4,26 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/UI_Demo.unity
+    guid: 97c3397a4a16aed4bb45fa6a84ccabd1
+  - enabled: 1
+    path: Assets/Scenes/Physics.unity
+    guid: ee3e584888e52ce4bbc6aec55f95363e
+  - enabled: 1
+    path: Assets/Scenes/2DPhysics.unity
+    guid: 79e592ad2d0d22c4d9b53f588956d173
+  - enabled: 1
+    path: Assets/Scenes/Collections.unity
+    guid: dd33455fa73941345b147d97cd8b7f2a
+  - enabled: 1
+    path: Assets/Scenes/MainScene.unity
+    guid: 1c224cc860cd9f541906e48f89b047ce
+  - enabled: 1
+    path: Assets/Scenes/Persistence.unity
+    guid: 0b67b39a4aea94845b723b6d02a686ac
+  - enabled: 1
+    path: Assets/Scenes/PlayerController.unity
+    guid: 0cc4d8fe232b3584bb5036b4ec9dfbc6
   m_configObjects: {}
