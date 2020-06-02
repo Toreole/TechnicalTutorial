@@ -847,7 +847,7 @@ ReflectionProbe:
   m_TimeSlicingMode: 0
   m_Resolution: 128
   m_UpdateFrequency: 0
-  m_BoxSize: {x: 10, y: 10, z: 10}
+  m_BoxSize: {x: 11, y: 10, z: 11}
   m_BoxOffset: {x: 0, y: 0, z: 0}
   m_NearClip: 0.3
   m_FarClip: 1000
@@ -2163,8 +2163,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39d96b8e6082b054681c845eed3d5548, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToLoad: Poggers
-  sceneToUnload: DifferentRoom
+  sceneToLoad: 1235125
+  sceneToUnload: Scene
+  setActiveScene: 1
 --- !u!1 &1552040140
 GameObject:
   m_ObjectHideFlags: 0
