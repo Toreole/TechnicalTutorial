@@ -10,5 +10,18 @@ namespace Tutorial.ScriptableObjects
     {
         //The item only has a name, not other data yet.
         public string itemName;
+
+        public ItemType type;
+
+        public Sprite keySprite;
+
+        public float weaponDamage;
+
+        public float potionHealing;
+
+        public enum ItemType
+        {
+            KeyItem, Weapon, Potion
+        } 
     }
 }

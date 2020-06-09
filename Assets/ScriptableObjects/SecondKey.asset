@@ -13,3 +13,7 @@ MonoBehaviour:
   m_Name: SecondKey
   m_EditorClassIdentifier: 
   itemName: old key
+  type: 1
+  keySprite: {fileID: 0}
+  weaponDamage: 0
+  potionHealing: 0
