@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Tutorial.ScriptableObjects;
+using Tutorial;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -68,6 +70,10 @@ public class PlayerController : MonoBehaviour
     //the speed at the start of a jump.
     [SerializeField]
     private float jumpSpeed = 3;
+    [SerializeField]
+    protected float interactTime = 0.7f;
+    [SerializeField]
+    protected Image progressFiller;
 
     //the position where we last detected the ground, only used for editor visualization.
     private Vector3 lastGroundHit;
@@ -203,11 +209,35 @@ public class PlayerController : MonoBehaviour
 
                 if (interactable != null) //if the interactable exists
                 {
-                    //Interact with the interactable!
-                    interactable.Interact(this);
+                    StartCoroutine(Interact(interactable, hit.point));
                 }
             }
         }
+    }
+
+    IEnumerator Interact(IInteractable interactable, Vector3 interactPosition)
+    { 
+        float startTime = Time.time;
+        float progress = 0;
+
+        while(Input.GetButton(buttonName: interactButton))
+        {
+            float current = Time.time;
+            progress = (current - startTime) / interactTime;
+            progressFiller.fillAmount = progress;
+
+            if( current - startTime >= interactTime)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        if(progress >= 1 && Vector3.Distance(camera.position, interactPosition) <= 2f)
+        {
+            interactable.Interact(this);
+        }
+        progressFiller.fillAmount = 0;
     }
 
     public void AddItemToPlayer(Item item)
@@ -232,4 +262,9 @@ public class PlayerController : MonoBehaviour
         //Draw the sphere itself. this uses worldspace.
         Gizmos.DrawSphere(lastGroundHit, 0.5f);
     }
+}
+
+public class Interactable : MonoBehaviour
+{
+
 }

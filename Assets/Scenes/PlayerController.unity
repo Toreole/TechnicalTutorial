@@ -159,6 +159,8 @@ MonoBehaviour:
   jumpButton: Jump
   gravityMultiplier: 1
   jumpSpeed: 3.5
+  interactTime: 0.7
+  progressFiller: {fileID: 0}
 --- !u!143 &252214282
 CharacterController:
   m_ObjectHideFlags: 0
@@ -224,7 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 198534df10bd0564e822f661c5142bf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemToCollect: {fileID: 11400000, guid: 698a7adda481e8744a4da390c635c637, type: 2}
+  itemToCollect: {fileID: 11400000, guid: f9c15c7b1eda7024b8707fc2cfc6e4b4, type: 2}
 --- !u!135 &323863388
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -21,6 +21,9 @@ namespace Tutorial
         protected Slider loadingSlider;
         [SerializeField]
         protected bool activateAllTogether = false;
+        [SerializeField]
+        protected GameObject pressAnyKeyPrompt;
+
 
         [SerializeField]
         protected PlayerController player;
@@ -30,9 +33,18 @@ namespace Tutorial
         {
             //we want to preload all the scenes before we start fading in the screen, thats why we need to yield return the coroutine.
             yield return Preload();
+
+            pressAnyKeyPrompt.SetActive(true);
+            yield return new WaitUntil(AnyKeyWasPressed);
+            pressAnyKeyPrompt.SetActive(false);
             yield return FadeIn();
         }
         
+        bool AnyKeyWasPressed()
+        {
+            return Input.anyKeyDown;
+        }
+
         IEnumerator Preload()
         {
             //make sure the loading screen is all active and opaque.
@@ -45,7 +57,7 @@ namespace Tutorial
             foreach (string scene in scenesToLoad)
             {
                 //start the async operation.
-                var operation = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
+                var operation = CustomSceneManager.LoadScene(scene);
                 operations.Add(operation);
                 //allow scene activation => not activateAllTogether (false => allowSceneActivation = true, vice versa)
                 operation.allowSceneActivation = !activateAllTogether;
@@ -81,7 +93,7 @@ namespace Tutorial
         {
             //loadingScreen.SetActive(false);
             yield return new WaitForSeconds(0.5f);
-            float fadeTime = 4f;
+            float fadeTime = 1f;
             //count down from 1 to 0 and set the alpha of the canvas group
             for (float t = fadeTime; t > 0f; t -= Time.deltaTime)
             {
