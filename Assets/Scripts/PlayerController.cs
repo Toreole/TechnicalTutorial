@@ -144,10 +144,11 @@ public class PlayerController : MonoBehaviour
         //the same as movement = movement * speed;
         movement *= speed * Time.deltaTime;
 
+        //if(character.isGrounded)
         //better and more reliable ground detection than the character controller's .isGrounded property.
         if(Physics.SphereCast(transform.position, 0.5f, Vector3.down, out RaycastHit groundHit, 0.6f))
         {
-            lastGroundHit = groundHit.point;
+            //lastGroundHit = groundHit.point;
             //use our input button to jump!
             if (Input.GetButtonDown(buttonName: jumpButton))
             {
@@ -260,7 +261,7 @@ public class PlayerController : MonoBehaviour
         //make the sphere red!
         Gizmos.color = Color.red;
         //Draw the sphere itself. this uses worldspace.
-        Gizmos.DrawSphere(lastGroundHit, 0.5f);
+        //Gizmos.DrawSphere(lastGroundHit, 0.5f);
     }
 }
 
