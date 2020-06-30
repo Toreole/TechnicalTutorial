@@ -75,6 +75,14 @@ namespace Tutorial
             resultSprite = Sprite.Create(texture, baseSprite.rect, pivot, baseSprite.pixelsPerUnit);
         }
 
+        Material baseMaterial;
+        void CreateMaterial()
+        {
+            Material instanceMaterial = Object.Instantiate(baseMaterial);
+            texture = Texture2D.Instantiate(baseTexture);
+            instanceMaterial.SetTexture("_MainTex", texture);
+        }
+
         public void Dispose()
         {
             Object.Destroy(texture);
